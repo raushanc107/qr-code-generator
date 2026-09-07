@@ -1,0 +1,359 @@
+<div class="app-wrapper">
+  <!-- Animated Background -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="3" width="7" height="7" rx="1" fill="white"/>
+            <rect x="14" y="3" width="7" height="7" rx="1" fill="white"/>
+            <rect x="3" y="14" width="7" height="7" rx="1" fill="white"/>
+            <rect x="14" y="14" width="3" height="3" rx="0.5" fill="white"/>
+            <rect x="18" y="14" width="3" height="3" rx="0.5" fill="white"/>
+            <rect x="14" y="18" width="3" height="3" rx="0.5" fill="white"/>
+            <rect x="18" y="18" width="3" height="3" rx="0.5" fill="white"/>
+          </svg>
+        </div>
+        <span class="logo-text">QR<span class="logo-accent">Studio</span></span>
+      </div>
+      <div class="header-badge">
+        <span class="badge-dot"></span>
+        Free & Open Source
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-tag">✨ Instant QR Generation</div>
+      <h1 class="hero-title">
+        Create Beautiful
+        <span class="gradient-text">QR Codes</span>
+        in Seconds
+      </h1>
+      <p class="hero-desc">Craft stunning, customizable QR codes for URLs, text, emails, phones & WiFi — no signup required.</p>
+    </section>
+
+    <!-- Generator Card -->
+    <div class="generator-grid">
+      <!-- Left Panel: Controls -->
+      <div class="panel controls-panel">
+        <!-- Content Type Tabs -->
+        <div class="section-label">Content Type</div>
+        <div class="tabs-container">
+          @for (tab of tabs; track tab.id) {
+            <button
+              class="tab-btn"
+              [class.active]="activeTab() === tab.id"
+              (click)="setTab(tab.id)"
+              [id]="'tab-' + tab.id"
+            >
+              <span class="tab-icon">{{ tab.icon }}</span>
+              <span class="tab-label">{{ tab.label }}</span>
+            </button>
+          }
+        </div>
+
+        <!-- Dynamic Input Area -->
+        <div class="input-section">
+          @switch (activeTab()) {
+            @case ('url') {
+              <div class="input-group">
+                <label class="input-label" for="url-input">Website URL</label>
+                <div class="input-wrapper">
+                  <span class="input-icon">🔗</span>
+                  <input
+                    id="url-input"
+                    class="text-input"
+                    type="url"
+                    [(ngModel)]="inputValue"
+                    placeholder="https://your-website.com"
+                  />
+                </div>
+              </div>
+            }
+            @case ('text') {
+              <div class="input-group">
+                <label class="input-label" for="text-input">Plain Text</label>
+                <textarea
+                  id="text-input"
+                  class="textarea-input"
+                  [(ngModel)]="inputValue"
+                  placeholder="Enter any text here..."
+                  rows="4"
+                ></textarea>
+              </div>
+            }
+            @case ('email') {
+              <div class="input-group">
+                <label class="input-label" for="email-address">Email Address</label>
+                <div class="input-wrapper">
+                  <span class="input-icon">✉️</span>
+                  <input id="email-address" class="text-input" type="email" [(ngModel)]="emailAddress" placeholder="recipient@example.com" />
+                </div>
+              </div>
+              <div class="input-group">
+                <label class="input-label" for="email-subject">Subject <span class="optional">(optional)</span></label>
+                <input id="email-subject" class="text-input standalone" type="text" [(ngModel)]="emailSubject" placeholder="Email subject..." />
+              </div>
+              <div class="input-group">
+                <label class="input-label" for="email-body">Body <span class="optional">(optional)</span></label>
+                <textarea id="email-body" class="textarea-input" [(ngModel)]="emailBody" placeholder="Email body..." rows="3"></textarea>
+              </div>
+            }
+            @case ('phone') {
+              <div class="input-group">
+                <label class="input-label" for="phone-input">Phone Number</label>
+                <div class="input-wrapper">
+                  <span class="input-icon">📱</span>
+                  <input id="phone-input" class="text-input" type="tel" [(ngModel)]="phoneNumber" placeholder="+1 (555) 000-0000" />
+                </div>
+              </div>
+            }
+            @case ('wifi') {
+              <div class="input-group">
+                <label class="input-label" for="wifi-ssid">Network Name (SSID)</label>
+                <div class="input-wrapper">
+                  <span class="input-icon">📶</span>
+                  <input id="wifi-ssid" class="text-input" type="text" [(ngModel)]="wifiSsid" placeholder="My WiFi Network" />
+                </div>
+              </div>
+              <div class="input-group">
+                <label class="input-label" for="wifi-password">Password</label>
+                <input id="wifi-password" class="text-input standalone" type="password" [(ngModel)]="wifiPassword" placeholder="WiFi password..." />
+              </div>
+              <div class="input-group">
+                <label class="input-label">Security Type</label>
+                <div class="segmented-control">
+                  @for (sec of ['WPA', 'WEP', 'nopass']; track sec) {
+                    <button
+                      class="segment-btn"
+                      [class.active]="wifiSecurity() === sec"
+                      (click)="wifiSecurity.set($any(sec))"
+                    >{{ sec === 'nopass' ? 'None' : sec }}</button>
+                  }
+                </div>
+              </div>
+            }
+          }
+        </div>
+
+        <!-- Divider -->
+        <div class="section-divider"></div>
+
+        <!-- Advanced Settings Toggle -->
+        <button class="advanced-toggle" (click)="toggleAdvanced()" id="advanced-toggle-btn">
+          <span>Advanced Settings</span>
+          <span class="toggle-chevron" [class.open]="showAdvanced()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </button>
+
+        @if (showAdvanced()) {
+          <div class="advanced-panel">
+            <!-- QR Size -->
+            <div class="setting-group">
+              <div class="setting-header">
+                <label class="input-label" for="size-range">QR Size</label>
+                <span class="setting-value">{{ qrSize() }}px</span>
+              </div>
+              <input
+                id="size-range"
+                class="range-input"
+                type="range"
+                [ngModel]="qrSize()"
+                (ngModelChange)="qrSize.set($event)"
+                min="150"
+                max="400"
+                step="10"
+              />
+            </div>
+
+            <!-- Margin -->
+            <div class="setting-group">
+              <div class="setting-header">
+                <label class="input-label" for="margin-range">Margin</label>
+                <span class="setting-value">{{ qrMargin() }}</span>
+              </div>
+              <input
+                id="margin-range"
+                class="range-input"
+                type="range"
+                [ngModel]="qrMargin()"
+                (ngModelChange)="qrMargin.set($event)"
+                min="0"
+                max="8"
+                step="1"
+              />
+            </div>
+
+            <!-- Error Correction -->
+            <div class="setting-group">
+              <label class="input-label">Error Correction</label>
+              <div class="segmented-control">
+                @for (level of errorLevels; track level.value) {
+                  <button
+                    class="segment-btn"
+                    [class.active]="errorCorrectionLevel() === level.value"
+                    (click)="errorCorrectionLevel.set(level.value)"
+                  >{{ level.value }}</button>
+                }
+              </div>
+              <p class="setting-hint">Higher correction = more complex QR but more resilient</p>
+            </div>
+
+            <!-- Color Presets -->
+            <div class="setting-group">
+              <label class="input-label">Color Presets</label>
+              <div class="color-presets">
+                @for (preset of colorPresets; track preset.label) {
+                  <button
+                    class="color-preset-btn"
+                    (click)="applyColorPreset(preset)"
+                    [title]="preset.label"
+                    [style.background]="'linear-gradient(135deg, ' + preset.dark + ' 50%, ' + preset.light + ' 50%)'"
+                  ></button>
+                }
+              </div>
+            </div>
+
+            <!-- Custom Colors -->
+            <div class="color-row">
+              <div class="color-picker-group">
+                <label class="input-label" for="color-dark">Foreground</label>
+                <div class="color-input-wrap">
+                  <input id="color-dark" type="color" [ngModel]="colorDark()" (ngModelChange)="colorDark.set($event)" class="color-swatch" />
+                  <span class="color-value">{{ colorDark() }}</span>
+                </div>
+              </div>
+              <div class="color-picker-group">
+                <label class="input-label" for="color-light">Background</label>
+                <div class="color-input-wrap">
+                  <input id="color-light" type="color" [ngModel]="colorLight()" (ngModelChange)="colorLight.set($event)" class="color-swatch" />
+                  <span class="color-value">{{ colorLight() }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Right Panel: Preview -->
+      <div class="panel preview-panel">
+        <div class="preview-header">
+          <span class="section-label">Preview</span>
+          <div class="char-counter">
+            <span [class.danger]="getQrTextLength() > 2000">{{ getQrTextLength() }}</span> chars
+          </div>
+        </div>
+
+        <!-- QR Code Display -->
+        <div class="qr-display">
+          <div class="qr-wrapper">
+            <div class="qr-glow"></div>
+            <qrcode
+              #qrCodeElement
+              [qrdata]="computedQrText()"
+              [width]="qrSize()"
+              [errorCorrectionLevel]="errorCorrectionLevel()"
+              [colorDark]="colorDark()"
+              [colorLight]="colorLight()"
+              [margin]="qrMargin()"
+              elementType="canvas"
+            ></qrcode>
+          </div>
+
+          <!-- QR info badge -->
+          <div class="qr-info">
+            <span class="info-pill">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+              Ready to scan
+            </span>
+            <span class="info-pill">ECC: {{ errorCorrectionLevel() }}</span>
+            <span class="info-pill">{{ qrSize() }}px</span>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <button
+            class="btn btn-primary"
+            (click)="downloadQR('png')"
+            [class.loading]="isDownloading()"
+            id="download-png-btn"
+          >
+            @if (isDownloading()) {
+              <div class="btn-spinner"></div>
+              Downloading...
+            } @else {
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Download PNG
+            }
+          </button>
+
+          <button
+            class="btn btn-secondary"
+            (click)="copyToClipboard()"
+            [class.copied]="isCopied()"
+            id="copy-btn"
+          >
+            @if (isCopied()) {
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              Copied!
+            } @else {
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              Copy Image
+            }
+          </button>
+        </div>
+
+        <!-- Current Data Preview -->
+        <div class="data-preview">
+          <span class="data-label">Encoded Data</span>
+          <p class="data-text">{{ computedQrText() }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features Bar -->
+    <div class="features-bar">
+      @for (feat of [
+        { icon: '⚡', text: 'Instant generation' },
+        { icon: '🎨', text: 'Custom colors' },
+        { icon: '📱', text: 'Mobile friendly' },
+        { icon: '🔒', text: 'Privacy first' },
+        { icon: '💾', text: 'Free downloads' }
+      ]; track feat.text) {
+        <div class="feature-item">
+          <span class="feat-icon">{{ feat.icon }}</span>
+          <span class="feat-text">{{ feat.text }}</span>
+        </div>
+      }
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Built with ❤️ using Angular & angularx-qrcode</p>
+  </footer>
+</div>
