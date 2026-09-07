@@ -1,4 +1,11 @@
-# QrCodeGenerator
+# QR Forge – Premium QR Code Generator
+
+> ## 🌐 Live Demo
+> # **[🔗 https://raushanc107.github.io/qr-code-generator/](https://raushanc107.github.io/qr-code-generator/)**
+
+---
+
+A beautiful, feature-rich QR Code Generator built with **Angular 20**. Generate customizable QR codes for URLs, text, contact info, WiFi and more — download instantly in PNG or SVG format.
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.12.
 
